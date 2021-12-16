@@ -7,6 +7,7 @@ Created on Thu Dec  9 12:13:24 2021
 
 import cv2
 import time
+from PIL import Image
 
 face_cascade_path = "./face_data/haarcascade_frontalface_default.xml"
 face_cascade = cv2.CascadeClassifier(face_cascade_path)
@@ -31,18 +32,21 @@ while True:
     # キーボードの入力の受付
     k = cv2.waitKey(1)
     cv2.imshow("video image", img)
+    img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+    pil_im = Image.fromarray(img)
+    pil_im.show()
     
-    # 終了
+    # 終了  
     if k == ord("q"):
         break
     # 背景の写真を保存
-    elif k == ord("s") and count_background < 20:
+    elif k == ord("b") and count_background < 20:
         cv2.imwrite('face_data/background/background' + str(count_background) + '.jpg', img)
         count_background += 1
         time.sleep(0.1)
     
     # 顔の写真を保存
-    elif k == ord("c"):
+    elif k == ord("f"):
     # グレースケールに変換
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         
@@ -52,14 +56,14 @@ while True:
         # 各顔について
         for x, y, w, h in faces:
         
-            # 顔の外接短形を描画
+            # 顔の外接短形を描画、平均値
             cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
             face = img[y : y + h, x : x + w]  
             cv2.imshow("face image", face)
             if count_face < 20:
                 count_face += 1
                 print('face_data/sho' + str(count_face) + '.jpg')
-                cv2.imwrite('face_data/sho/face' + str(count_face) + '.jpg',face)  
+                cv2.imwrite('face_data/A/face' + str(count_face) + '.jpg',face)  
             face_gray = gray[y : y + h, x : x + w]
         
 # 終了処理
