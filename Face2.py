@@ -30,7 +30,7 @@ count_background = 1
 screenshot = False
 # スクショを保存する変数
 photo = None
-image_path_A = "face_data/A/face4.jpg"
+image_path_A = "face_data/A/face2.jpg"
 
 def cos_similarity(p1, p2): 
     return np.dot(p1, p2) / (np.linalg.norm(p1) * np.linalg.norm(p2))
@@ -53,7 +53,6 @@ while True:
         faces = mtcnn(pil_im)
         boxes, _ = mtcnn.detect(pil_im)
         if boxes is None:
-            time.sleep(0.2)
             continue
         else:
             try:
@@ -74,7 +73,7 @@ while True:
                     if img1vs2 >= 0.7:
                         cv2.putText(img,
                                     text='This is A',
-                                    org=(int(x1+width/2), int(y1+height/2)),
+                                    org=(int(x1), int(y1+height/2)),
                                     fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                                     fontScale=1.0,
                                     color=(0, 255, 0),
@@ -83,13 +82,12 @@ while True:
                     else:
                         cv2.putText(img,
                                     text='This is ???',
-                                    org=(int(x1+width/2), int(y1+height/2)),
+                                    org=(int(x1), int(y1+height/2)),
                                     fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                                     fontScale=1.0,
                                     color=(0, 255, 0),
                                     thickness=2,
-                                    lineType=cv2.LINE_4)
-                        
+                                    lineType=cv2.LINE_4)                        
             except Exception as e:
                 print(e)
                 
